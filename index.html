@@ -174,17 +174,33 @@ document.getElementById("loveText").innerText="Infinite ❤️";
 
 // Countdown
 function update(){
-let now=new Date();
-let year=now.getFullYear();
-let target=new Date(year,2,25,0,0,0);
-if(now>target){target=new Date(year+1,2,25,0,0,0);}
-let diff=target-now;
-d.innerText=Math.floor(diff/1000/60/60/24);
-h.innerText=Math.floor(diff/1000/60/60)%24;
-m.innerText=Math.floor(diff/1000/60)%60;
-s.innerText=Math.floor(diff/1000)%60;
+
+  let now = new Date();
+  let year = now.getFullYear();
+
+  // March = 2 (because month index starts from 0)
+  let target = new Date(year, 2, 25, 0, 0, 0);
+
+  // If 25 March has already passed this year
+  if(now > target){
+    target = new Date(year + 1, 2, 25, 0, 0, 0);
+  }
+
+  let diff = target - now;
+
+  let days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  let hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  let minutes = Math.floor((diff / (1000 * 60)) % 60);
+  let seconds = Math.floor((diff / 1000) % 60);
+
+  document.getElementById("d").innerText = days;
+  document.getElementById("h").innerText = hours;
+  document.getElementById("m").innerText = minutes;
+  document.getElementById("s").innerText = seconds;
 }
-setInterval(update,1000);
+
+setInterval(update, 1000);
+update();
 
 // Roses
 setInterval(()=>{
@@ -261,4 +277,5 @@ draw();
 
 </body>
 </html>
+
 
