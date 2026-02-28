@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Muskan ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Poppins',sans-serif;
+  background:linear-gradient(to bottom,#050816,#0b0f2f,#1a103d);
+  color:white;text-align:center;overflow-x:hidden;
+}
+
+/* Moon */
+.moon{
+  position:fixed;top:50px;right:80px;
+  width:120px;height:120px;border-radius:50%;
+  background:radial-gradient(circle,#fff,#ffd6f2 60%,transparent);
+  box-shadow:0 0 40px #ff99cc;
+  z-index:-1;
+}
+
+/* Stars */
+canvas{position:fixed;top:0;left:0;z-index:-2}
+
+/* Roses */
+.rose{
+  position:fixed;top:-50px;font-size:18px;
+  animation:fall linear infinite;
+}
+@keyframes fall{
+  to{transform:translateY(110vh) rotate(360deg);opacity:0}
+}
+
+/* Sections */
+section{padding:100px 20px;animation:fadeUp 1.5s ease}
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(40px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+h1{
+  font-family:'Great Vibes',cursive;
+  font-size:55px;
+  text-shadow:0 0 25px #ff4da6;
+}
+
+.subtitle{margin-top:15px;color:#ffb3d9}
+
+/* Love Meter */
+.love-bar{
+  width:80%;max-width:400px;height:25px;
+  background:#222;border-radius:20px;margin:30px auto;
+  overflow:hidden;
+}
+.love-fill{
+  height:100%;width:0%;
+  background:linear-gradient(90deg,#ff4da6,#ff99cc);
+  transition:width 3s ease;
+}
+
+/* Countdown */
+.countdown{display:flex;justify-content:center;gap:15px;flex-wrap:wrap;margin-top:40px}
+.box{
+  background:rgba(255,255,255,0.08);
+  padding:20px;border-radius:15px;width:90px;
+  box-shadow:0 0 20px #ff4da6;
+}
+.box h2{font-size:24px}
+.box span{font-size:12px;color:#ff99cc}
+
+/* Cards */
+.cards{display:flex;flex-wrap:wrap;justify-content:center;gap:20px}
+.card{width:120px;height:160px;perspective:1000px}
+.inner{width:100%;height:100%;transition:transform 0.8s;transform-style:preserve-3d}
+.card:hover .inner{transform:rotateY(180deg)}
+.front,.back{
+  position:absolute;width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:10px;backface-visibility:hidden;
+}
+.front{background:#ff4da6}
+.back{background:#111;transform:rotateY(180deg);padding:10px}
+
+/* Secret */
+#secret{display:none;margin-top:20px;white-space:pre-line;color:#ffd6f2}
+input{padding:8px;border-radius:10px;border:none}
+.shake{animation:shake 0.4s}
+@keyframes shake{
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(-5px)}
+  75%{transform:translateX(5px)}
+}
+
+/* Final */
+#final{display:none;font-family:'Great Vibes',cursive;font-size:45px;margin-top:30px;animation:heartbeat 1.5s infinite}
+@keyframes heartbeat{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.1)}
+}
+
+button{
+  padding:10px 25px;border:none;border-radius:25px;
+  background:#ff4da6;color:white;margin-top:15px;
+  cursor:pointer
+}
+</style>
+</head>
+<body>
+
+<div class="moon"></div>
+<canvas id="stars"></canvas>
+
+<section>
+<h1>Happy Birthday in Advance, Muskan ❤️</h1>
+<p class="subtitle" id="typing"></p>
+
+<div class="love-bar">
+<div class="love-fill" id="loveFill"></div>
+</div>
+<p id="loveText"></p>
+</section>
+
+<section>
+<div class="countdown">
+<div class="box"><h2 id="d"></h2><span>Days</span></div>
+<div class="box"><h2 id="h"></h2><span>Hours</span></div>
+<div class="box"><h2 id="m"></h2><span>Minutes</span></div>
+<div class="box"><h2 id="s"></h2><span>Seconds</span></div>
+</div>
+</section>
+
+<section>
+<h2>6 Clues 💌</h2>
+<div class="cards">
+<div class="card"><div class="inner"><div class="front">1</div><div class="back">Someone smiles reading your texts</div></div></div>
+<div class="card"><div class="inner"><div class="front">2</div><div class="back">Someone checks your last seen</div></div></div>
+<div class="card"><div class="inner"><div class="front">3</div><div class="back">Someone imagines future with you</div></div></div>
+<div class="card"><div class="inner"><div class="front">4</div><div class="back">Someone prays for your happiness</div></div></div>
+<div class="card"><div class="inner"><div class="front">5</div><div class="back">Someone feels calm hearing you</div></div></div>
+<div class="card"><div class="inner"><div class="front">6</div><div class="back">That someone is Harsh ❤️</div></div></div>
+</div>
+</section>
+
+<section>
+<h2>🔐 Unlock My Heart</h2>
+<input type="password" id="pass" placeholder="Password">
+<br>
+<button onclick="unlock()">Unlock</button>
+<div id="secret"></div>
+</section>
+
+<section>
+<button onclick="fireworks()">Open Your Birthday Hug 🤗</button>
+<div id="final">I Love You Muskan ❤️<br>Today, Tomorrow, Forever.</div>
+</section>
+
+<script>
+// Typing
+let t="Distance means nothing when someone means everything.";
+let i=0;
+function type(){if(i<t.length){typing.innerHTML+=t[i];i++;setTimeout(type,40);}}
+type();
+
+// Love Meter
+setTimeout(()=>{
+document.getElementById("loveFill").style.width="100%";
+document.getElementById("loveText").innerText="Infinite ❤️";
+},1000);
+
+// Countdown
+function update(){
+let now=new Date();
+let year=now.getFullYear();
+let target=new Date(year,2,8,0,0,0);
+if(now>target){target=new Date(year+1,2,8,0,0,0);}
+let diff=target-now;
+d.innerText=Math.floor(diff/1000/60/60/24);
+h.innerText=Math.floor(diff/1000/60/60)%24;
+m.innerText=Math.floor(diff/1000/60)%60;
+s.innerText=Math.floor(diff/1000)%60;
+}
+setInterval(update,1000);
+
+// Roses
+setInterval(()=>{
+let r=document.createElement("div");
+r.className="rose";
+r.innerHTML="🌹";
+r.style.left=Math.random()*100+"%";
+r.style.animationDuration=(4+Math.random()*5)+"s";
+document.body.appendChild(r);
+setTimeout(()=>r.remove(),9000);
+},300);
+
+// Unlock
+function unlock(){
+let p=document.getElementById("pass");
+if(p.value==="Harsh Loves Muskan"){
+let msg=`Muskan… ❤️
+
+If you are reading this,  
+it means you unlocked not just a message —  
+but the deepest part of my heart.  
+
+I know your birthday hasn’t officially started yet,  
+but loving you doesn’t wait for midnight.  
+
+Before you, I didn’t know someone  
+could feel like home from miles away.  
+
+You are my peace.  
+My happiness.  
+My forever.  
+
+Happy Birthday in advance, my love.
+
+In every lifetime.
+In every universe.
+
+Forever yours,
+Harsh ❤️`;
+let secret=document.getElementById("secret");
+secret.style.display="block";
+let j=0;
+function typeLetter(){
+if(j<msg.length){secret.innerHTML+=msg[j];j++;setTimeout(typeLetter,30);}
+}
+typeLetter();
+}else{
+p.classList.add("shake");
+setTimeout(()=>p.classList.remove("shake"),400);
+}
+}
+
+// Fireworks
+function fireworks(){
+document.getElementById("final").style.display="block";
+if(navigator.vibrate) navigator.vibrate(300);
+alert("🎆 Happy Birthday Muskan 🎆");
+}
+
+// Stars
+let canvas=document.getElementById("stars");
+let ctx=canvas.getContext("2d");
+canvas.width=innerWidth;canvas.height=innerHeight;
+let stars=[];
+for(let i=0;i<150;i++){stars.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*2});}
+function draw(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.fillStyle="white";
+stars.forEach(s=>{ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,2*Math.PI);ctx.fill();});
+requestAnimationFrame(draw);
+}
+draw();
+</script>
+
+</body>
+</html>
